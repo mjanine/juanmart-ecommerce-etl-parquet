@@ -1,0 +1,38 @@
+{
+    "dataset_metadata": {
+        "total_raw_rows": 12,
+        "total_columns": 6,
+        "columns": [
+            "transaction_id",
+            "cust_name",
+            "region",
+            "order_date",
+            "amount_paid",
+            "status"
+        ]
+    },
+    "data_quality_issues": {
+        "duplicate_rows": 2,
+        "missing_values": {
+            "transaction_id": 0,
+            "cust_name": 2,
+            "region": 0,
+            "order_date": 0,
+            "amount_paid": 2,
+            "status": 0
+        },
+        "inconsistent_regions": {
+            "NCR": 3,
+            "Metro Manila": 2,
+            "ncr": 2,
+            "CALABARZON": 2,
+            "calabarzon": 2,
+            "Region IV-A": 1
+        },
+        "order_statuses": {
+            "Completed": 9,
+            "Cancelled": 2,
+            "Returned": 1
+        }
+    }
+}

@@ -1,0 +1,9 @@
+# Parquet & CSV generated outputs
+cleaned_juanmart_sales.parquet
+quarantined_transactions.csv
+juanmart_raw_sales.csv
+
+# System files
+desktop.ini
+__pycache__/
+.venv/

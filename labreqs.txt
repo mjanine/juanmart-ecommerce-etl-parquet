@@ -1,0 +1,159 @@
+LESSON 1 - INTRO TO DATA WAREHOUSING
+=====================================
+
+Date: July 21, 2026
+Data Warehousing - Lab
+
+BUSINESS SCENARIO: The "JuanMart" E-Commerce Dilemma
+-----------------------------------------------------
+
+Company Profile:
+JuanMart is a rapidly growing online retail platform based in Metro
+Manila, Philippines. Over the past two years, they have expanded from
+selling local artisanal goods to electronics, fashion, and home
+groceries.
+
+The Problem:
+The CEO wants a clear picture of the company's sales performance to
+plan next year's inventory. However, the data is scattered. Customer
+registrations come from a web form, sales logs are extracted from an
+older transactional database, and shipping logs are handled via text
+files by a third-party logistics partner. Initial attempts to generate
+reports produced conflicting numbers: the Finance team claims a 15%
+revenue growth, while the Operations team reports a deficit due to
+returns and cancelled orders. The data is plagued with duplicate
+entries, missing fields, and chaotic formatting (e.g., region names
+written as "NCR", "ncr", "Metro Manila", or "Manila").
+
+Your Role:
+You have been hired as the Lead Data Engineer. Your job in this module
+is to apply the Data Analytics Life Cycle to understand the business
+problem, profile the chaotic raw data, and write a programmatic Python
+script to clean it before it enters the data warehouse.
+
+
+LAB 1.1: SETTING UP THE SANDBOX & DATA PROFILING
+--------------------------------------------------
+
+Lab Description:
+Before writing any code or building tables, you must analyze the raw
+data to understand how "dirty" it is. In this lab, you will open the
+raw transactional file in Visual Studio Code (VS Code) using a Jupyter
+Notebook. You will write initial Python scripts to inspect the shape,
+data types, and null counts of the dataset.
+
+Step-by-Step Instructions:
+  1. Open VS Code. Create a project folder named juanmart_dw.
+  2. Install the Python and Jupyter extensions in VS Code.
+  3. Create a notebook named 1.1_data_profiling.ipynb.
+  4. Load the raw dataset (juanmart_raw_sales.csv) into a Pandas
+     DataFrame.
+  5. Use methods like .info(), .describe(), .isnull().sum(), and
+     .value_counts() to identify data anomalies.
+
+Convert this data to CSV format:
+
+transaction_id,cust_name, region, order_date, amount_paid,status
+1001, Juan Dela Cruz, NCR, 2026-07-01,1500.50, Completed
+1002, Maria Santos, Metro Manila, 2026/07/02,2400.00, Completed
+1003,,ncr, 2026-07-02,450.00, Cancelled
+1004, Pedro Penduko, CALABARZON, 2026/07/03,, Completed
+1005, Ana Roces, calabarzon, 2026-07-04,3100.25, Completed
+1001, Juan Dela Cruz, NCR, 2026-07-01,1500.50, Completed
+1006, Jose Rizal, Region IV-A,2026/07/05,1200.00, Returned
+1007, Cardo Dalisay, Metro Manila, 2026-07-05,, Completed
+1008,,ncr,2026/07/06,850.75, Completed
+1005, Ana Roces, calabarzon, 2026-07-04,3100.25, Completed
+1009, Manny Pacquiao, CALABARZON, 2026-07-06,5000.00, Completed
+1010, Catriona Gray, NCR, 2026/07/07,1850.00, Cancelled
+
+
+LAB 1.2: PROGRAMMATIC DATA CLEANSING WITH PYTHON
+---------------------------------------------------
+
+Lab Description:
+Now that you have a map of the data issues from Lab 1.1, you will
+write a programmatic Python script in VS Code to fix them
+automatically. This script will ensure the data is standardized,
+clean, and reliable for the data warehouse loading step.
+
+Step-by-Step Instructions:
+  1. Create a new Python file in VS Code named 1.2_data_cleansing.py.
+  2. Write functions to:
+       - Drop the 15 duplicate rows.
+       - Fill missing values in amount_paid with the median value of
+         that region.
+       - Standardize the region column using a mapping dictionary
+         (NCR, Metro Manila, ncr -> National Capital Region).
+       - Convert order_date strings to uniform YYYY-MM-DD timestamps.
+       - Export the clean data to a new file: juanmart_clean_sales.csv.
+
+
+LAB 1.3: DOCUMENTING THE DATA ANALYTICS LIFE CYCLE
+------------------------------------------------------
+
+Lab Description:
+Cleansing data is just one phase of a bigger picture. In this lab, you
+will map out the entire project strategy using the 6 phases of the
+Data Analytics Life Cycle. You will use VS Code's built-in Markdown
+editor to draft a comprehensive Project Charter Markdown Document
+(.md).
+
+Step-by-Step Instructions:
+  1. Create a file named 1.3_project_charter.md in VS Code.
+  2. Toggle the Markdown Preview panel in VS Code to see your
+     formatted report in real-time.
+  3. Define the specific objectives, data requirements, and deployment
+     goals of the JuanMart Data Warehouse project for each life cycle
+     phase.
+
+
+LAB 1.4: SCENARIO GOAL
+--------------------------
+
+JuanMart's executive team needs an interactive BI dashboard to track
+regional sales growth, monitor order volume trends, analyze customer
+retention based on historical address migrations (from the SCD Type 2
+pipeline), and identify top-performing product categories.
+
+Recommended Tooling Option for Students:
+  Streamlit / Plotly in Python (.py dashboard script).
+
+Key Dashboard Deliverable Components:
+
+  juanmart_analytics_dashboard File:
+
+  - KPI Summary Cards: Total Net Revenue, Average Order Value (AOV),
+    Total Orders, and Quarantined Data Error Rate (%).
+
+  - Time-Series Revenue Trend Line: Monthly and quarterly revenue
+    breakdowns using the dim_calendar dimension.
+
+  - Geographic / Regional Heatmap: Sales density mapped by customer
+    location (testing that the SCD Type 2 historical addresses
+    dynamically map sales to where the customer lived at the time of
+    purchase).
+
+  - Product Category Performance: Bar/Donut chart breaking down sales
+    volume vs. profit margins across product lines.
+
+
+DELIVERABLES LIST (INCLUDING THE DASHBOARD)
+==============================================
+
+Here is how the deliverables stack up with the Analytics Dashboard
+integrated:
+
++--------------+---------------------------------------------+------------------+--------------------------------------------------+
+| Lab Activity | Deliverable File Name                        | Format           | Primary Objective                                 |
++--------------+---------------------------------------------+------------------+--------------------------------------------------+
+| Lab 1.1      | juanmart_schema_audit.sql                    | .sql             | 3NF Deconstruction & Diagnostic Profiling         |
+| Lab 1.1      | juanmart_health_report.json                  | .json            | Metadata Anomaly & Null/Outlier Profiling         |
+| Lab 1.2      | juanmart_sanitizer.py                        | .py              | Ingestion & Cleaning Engine                       |
+| Lab 1.2      | cleaned_juanmart_sales.parquet                | .parquet         | Production-Ready Compressed Data Store            |
+| Lab 1.2      | quarantined_transactions.csv                 | .csv             | Isolated Failed/Corrupted Record Log Automated    |
+| Lab 1.3      | juanmart_scd_pipeline.sql                    | .sql             | Type 2 Slowly Changing Dimension Implementation   |
+| Lab 1.3      | juanmart_star_schema.png                     | .png/ERD         | Visual Dimensional Model & Star Schema Diagram     |
+| Lab 1.4      | juanmart_analytics_dashboard.pbix (or .py    | .pbix/.py/.pdf   | Interactive Executive E-Commerce Dashboard        |
+|              | /.pdf)                                       |                  |                                                    |
++--------------+---------------------------------------------+------------------+--------------------------------------------------+
